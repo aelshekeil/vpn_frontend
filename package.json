@@ -2,10 +2,7 @@
   "name": "vpn_frontend",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    ".",
-    "worker"
-  ],
+  ,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -66,10 +63,14 @@
     "vaul": "^1.1.2",
     "zod": "^3.24.1",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "next-i18next": "^15.4.2"
 =======
     "next-i18next": "^13.5.0"
 >>>>>>> ef6f8ff (update lockfile and fix workspace config)
+=======
+    "next-i18next": "^15.4.2"
+>>>>>>> f28f673 (merge remote changes)
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250109.0",
