@@ -2,38 +2,37 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "next-i18next";
-import { NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next"; // Assuming next-i18next is configured for App Router
 import { useRouter } from "next/navigation";
 
 interface UserData {
   email: string;
   plan: string;
   status: string;
-  expires_at: string | null; // Changed from expires to expires_at to match backend
+  expires_at: string | null; 
   bandwidthUsed: string;
   bandwidthLimit: string;
   is_vip: boolean;
 }
 
-const DashboardPage: NextPage = () => {
+const DashboardPage = () => { // Removed NextPage type as it's less common with App Router's default server components, though this is a client component.
   const { t } = useTranslation("common");
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Define fetchUserData once to be reusable
   const fetchUserData = async () => {
     const token = localStorage.getItem("vpn_user_token");
     if (!token) {
       router.push("/login");
       return;
     }
-    setIsLoading(true); // Set loading true when fetching
+    setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/user/status", {
+      // IMPORTANT: Replace with your actual API URL, ideally from an environment variable
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"; 
+      const response = await fetch(`${apiUrl}/api/user/status`, {
         headers: { "x-access-token": token },
       });
       if (!response.ok) {
@@ -46,10 +45,10 @@ const DashboardPage: NextPage = () => {
       }
       const data: UserData = await response.json();
       setUserData(data);
-      setError(null); // Clear previous errors
+      setError(null);
     } catch (err: any) {
       setError(err.message || "An error occurred.");
-      setUserData(null); // Clear user data on error
+      setUserData(null);
     } finally {
       setIsLoading(false);
     }
@@ -57,20 +56,18 @@ const DashboardPage: NextPage = () => {
 
   useEffect(() => {
     fetchUserData();
-    // Check for payment success query parameter
     const queryParams = new URLSearchParams(window.location.search);
     if (queryParams.get("payment_success") === "true") {
         alert("Payment successful! Your VIP plan is now active or will be shortly after webhook processing.");
-        // Optionally, remove query params from URL
-        router.replace("/dashboard", undefined); // Use router.replace to avoid adding to history
-        fetchUserData(); // Re-fetch data to show updated status
+        router.replace("/dashboard", undefined);
+        fetchUserData(); 
     }
     if (queryParams.get("payment_cancelled") === "true") {
         alert("Payment was cancelled. Your plan has not been changed.");
         router.replace("/dashboard", undefined);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]); // router is stable, fetchUserData is memoized by being outside or wrapped in useCallback if it had dependencies
+  }, [router]);
 
   const handleDownloadConfig = async () => {
     const token = localStorage.getItem("vpn_user_token");
@@ -80,7 +77,8 @@ const DashboardPage: NextPage = () => {
       return;
     }
     try {
-      const response = await fetch("http://localhost:5000/api/user/config", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const response = await fetch(`${apiUrl}/api/user/config`, {
         method: "GET",
         headers: {
           "x-access-token": token,
@@ -99,7 +97,7 @@ const DashboardPage: NextPage = () => {
       const disposition = response.headers.get("content-disposition");
       let filename = "wg_config.conf";
       if (disposition && disposition.indexOf("attachment") !== -1) {
-        const filenameRegex = /filename[^;=\n]*=((["'])(.*?)\2|([^;\n]*))/;
+        const filenameRegex = /filename[^;=\n]*=(([""])(.*?)\2|([^;\n]*))/;
         const matches = filenameRegex.exec(disposition);
         if (matches != null && matches[3]) {
           filename = matches[3];
@@ -126,13 +124,13 @@ const DashboardPage: NextPage = () => {
     }
     setError(null);
     try {
-      const response = await fetch("http://localhost:5000/api/payment/create-checkout-session", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const response = await fetch(`${apiUrl}/api/payment/create-checkout-session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-access-token": token,
         },
-        // body: JSON.stringify({ priceId: "YOUR_STRIPE_PRICE_ID" }), // If you need to pass priceId
       });
 
       const data = await response.json();
@@ -140,7 +138,6 @@ const DashboardPage: NextPage = () => {
       if (!response.ok) {
         setError(data.error || "Failed to create payment session.");
       } else if (data.checkout_url) {
-        // Redirect to Stripe Checkout
         window.location.href = data.checkout_url;
       } else {
         setError("Could not retrieve Stripe Checkout URL.");
@@ -154,12 +151,11 @@ const DashboardPage: NextPage = () => {
     return <div className="container mx-auto px-4 py-8 text-center">Loading dashboard...</div>;
   }
 
-  if (error && !userData) { // Only show full page error if no user data is available
+  if (error && !userData) {
     return <div className="container mx-auto px-4 py-8 text-center text-red-500">Error: {error} <button onClick={() => router.push("/login")} className="text-blue-500 underline ml-2">Go to Login</button></div>;
   }
 
   if (!userData) {
-    // This case should ideally be handled by the redirect in useEffect if no token, or error state if fetch fails
     return <div className="container mx-auto px-4 py-8 text-center">No user data found. Please try logging in again.</div>;
   }
 
@@ -168,7 +164,7 @@ const DashboardPage: NextPage = () => {
       <header className="mb-8">
         <h1 className="text-3xl font-bold">{t("nav_dashboard")}</h1>
       </header>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>} {/* Show non-critical errors here */}
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       <section className="bg-white p-6 rounded-lg shadow-lg mb-8">
         <h2 className="text-xl font-semibold mb-4">Account Information</h2>
@@ -199,7 +195,6 @@ const DashboardPage: NextPage = () => {
               Upgrade to VIP
             </button>
           )}
-           {/* Logout Button */}
           <button 
             onClick={() => {
               localStorage.removeItem("vpn_user_token");
@@ -215,10 +210,7 @@ const DashboardPage: NextPage = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["common"])),
-  },
-});
+// Removed the getStaticProps function as it is not supported in App Router
 
 export default DashboardPage;
+
