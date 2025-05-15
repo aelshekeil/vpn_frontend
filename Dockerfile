@@ -17,7 +17,7 @@ COPY package.json pnpm-lock.yaml* ./
 # Install dependencies
 
 # Install dependencies with lockfile fix
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # If not using pnpm, adjust to: RUN npm ci
 # Or: RUN yarn install --frozen-lockfile
