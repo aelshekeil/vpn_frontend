@@ -6,8 +6,13 @@ FROM node:20-alpine AS builder
 # Set working directory
 WORKDIR /app
 
+<<<<<<< HEAD
 # Enable corepack for pnpm (built into Node.js)
 RUN corepack enable
+=======
+# Install pnpm globally (if your project uses pnpm, adjust if using npm or yarn)
+RUN npm install -g pnpm
+>>>>>>> ef6f8ff (update lockfile and fix workspace config)
 
 # Copy package.json and pnpm-lock.yaml (or package-lock.json/yarn.lock)
 COPY package.json pnpm-lock.yaml* ./
@@ -15,10 +20,14 @@ COPY package.json pnpm-lock.yaml* ./
 # Or: COPY package.json yarn.lock ./
 
 # Install dependencies
+<<<<<<< HEAD
 
 # Install dependencies with lockfile fix
 RUN pnpm install --frozen-lockfile
 
+=======
+RUN pnpm install --frozen-lockfile
+>>>>>>> ef6f8ff (update lockfile and fix workspace config)
 # If not using pnpm, adjust to: RUN npm ci
 # Or: RUN yarn install --frozen-lockfile
 

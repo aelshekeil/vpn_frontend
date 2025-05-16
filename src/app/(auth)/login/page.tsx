@@ -109,4 +109,8 @@ const LoginPage: NextPage = () => {
 };
 
 
+<<<<<<< HEAD
 export default LoginPage;
+=======
+export default LoginPage;
+>>>>>>> ef6f8ff (update lockfile and fix workspace config)
