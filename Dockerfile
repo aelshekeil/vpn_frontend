@@ -32,6 +32,19 @@ WORKDIR /app
 
 # Set environment to production
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy package files
+Copy package.json pnpm-lock.yaml* ./
+
+# Install dependencies
+Copy package.json pnpm-lock.yaml* ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
 
 # Copy built assets from the builder stage
 COPY --from=builder /app/.next ./.next
