@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-packages: []
 packages:
   - 'packages/*'
-=======
-packages: []
->>>>>>> ef6f8ff (update lockfile and fix workspace config)
