@@ -3,9 +3,9 @@
 # 1. Build Stage
 FROM node:20-alpine AS builder
 
-# Intall build tools FIRST
+# Install build tools FIRST (fixed typo and combined RUN commands)
 RUN --mount=type=cache,target=/var/cache/apk \
-RUN apk add --no-cache git python3 make g++
+    apk add --no-cache git python3 make g++
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies
-RUN pnpm install 
+RUN pnpm install
 
 # Copy the rest of the application code
 COPY . .
