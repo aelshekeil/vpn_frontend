@@ -64,8 +64,4 @@ const PricingPage: NextPage = () => {
   );
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ef6f8ff (update lockfile and fix workspace config)
 export default PricingPage;
