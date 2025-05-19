@@ -20,6 +20,7 @@ COPY . .
 
 # Build the Next.js application
 RUN pnpm build
+RUN apk add --no-cache git python3 make g++
 
 # 2. Production Stage
 FROM node:20-alpine
