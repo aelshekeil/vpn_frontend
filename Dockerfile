@@ -3,6 +3,9 @@
 # 1. Build Stage
 FROM node:20-alpine AS builder
 
+# Intall build tools FIRST
+RUN apk add --no-cache git python3 make g++
+
 # Set working directory
 WORKDIR /app
 
@@ -20,7 +23,6 @@ COPY . .
 
 # Build the Next.js application
 RUN pnpm build
-RUN apk add --no-cache git python3 make g++
 
 # 2. Production Stage
 FROM node:20-alpine

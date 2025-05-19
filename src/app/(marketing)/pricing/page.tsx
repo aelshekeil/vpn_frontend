@@ -1,5 +1,5 @@
-// /home/ubuntu/vpn_frontend/src/app/(marketing)/pricing/page.tsx
 "use client";
+// /home/ubuntu/vpn_frontend/src/app/(marketing)/pricing/page.tsx
 
 import React from "react";
 import { useTranslation } from "next-i18next";
@@ -9,6 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const PricingPage: NextPage = () => {
   const { t } = useTranslation("common");
+const MyContext = createContext(/* ... */)
 
   return (
     <div className="container mx-auto px-4 py-8">
