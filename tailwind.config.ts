@@ -82,5 +82,9 @@ export default {
       },
     },
   },
+  // tailwind.config.js
+borderColor: {
+  DEFAULT: 'hsl(var(--border))'
+},
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
