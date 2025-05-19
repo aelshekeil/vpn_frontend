@@ -9,5 +9,10 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
 }
+module.exports = {
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+};
 
 export default nextConfig

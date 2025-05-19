@@ -1,5 +1,14 @@
 import type { Config } from "tailwindcss";
 
+module.exports = {
+  theme: {
+    extend: {
+      borderColor: {
+        border: 'hsl(var(--border))', // Replace with your actual color value
+      }
+    }
+  }
+}
 export default {
     darkMode: ["class"],
     content: [
