@@ -4,6 +4,7 @@
 FROM node:20-alpine AS builder
 
 # Intall build tools FIRST
+RUN --mount=type=cache,target=/var/cache/apk \
 RUN apk add --no-cache git python3 make g++
 
 # Set working directory

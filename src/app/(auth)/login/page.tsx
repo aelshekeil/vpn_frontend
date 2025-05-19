@@ -1,4 +1,3 @@
-// /home/ubuntu/vpn_frontend/src/app/(auth)/login/page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -109,4 +108,3 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
-

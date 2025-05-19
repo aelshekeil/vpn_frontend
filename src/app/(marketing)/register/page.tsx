@@ -1,13 +1,10 @@
-// /home/ubuntu/vpn_frontend/src/app/(marketing)/register/page.tsx
 "use client";
 
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
-import { NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
 
-const RegisterPage: NextPage = () => {
+const RegisterPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -27,7 +24,7 @@ const RegisterPage: NextPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", { // Assuming backend runs on port 5000
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,8 +38,7 @@ const RegisterPage: NextPage = () => {
         setError(data.message || "Registration failed. Please try again.");
       } else {
         setSuccess(data.message || "Registration successful! You can now log in.");
-        // Optionally redirect to login page or show a success message
-        // router.push("/login"); 
+        // router.push("/login"); // Uncomment when ready for redirect
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again later.");
@@ -118,3 +114,5 @@ const RegisterPage: NextPage = () => {
     </div>
   );
 };
+
+export default RegisterPage;

@@ -1,5 +1,4 @@
 "use client";
-// /home/ubuntu/vpn_frontend/src/app/(marketing)/pricing/page.tsx
 
 import React from "react";
 import { useTranslation } from "next-i18next";
