@@ -109,5 +109,4 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
-export default LoginPage;
 

@@ -63,5 +63,4 @@ const PricingPage: NextPage = () => {
     </div>
   );
 };
-
 export default PricingPage;

@@ -118,10 +118,3 @@ const RegisterPage: NextPage = () => {
     </div>
   );
 };
-
-<<<<<<< HEAD
-
-export default RegisterPage;
-=======
-export default RegisterPage;
->>>>>>> ef6f8ff (update lockfile and fix workspace config)
