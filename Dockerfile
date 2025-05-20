@@ -21,9 +21,8 @@ COPY --chown=node:node . .
 
 # Build application with production environment
 ENV NODE_ENV=production
-RUN pnpm add sharp && \
+RUN pnpm add -w sharp && \
     pnpm build && \
-     
     rm -rf .next/cache
 
 # Production stage
