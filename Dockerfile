@@ -21,7 +21,7 @@ RUN if [ -f pnpm-lock.yaml ]; then \
 COPY . .
 
 # Build Next.js app
-RUN pnpm build && \
+RUN pnpm build --debug && \
     pnpm prune --prod && \
     rm -rf .next/cache
 
