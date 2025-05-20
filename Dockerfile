@@ -13,7 +13,7 @@ RUN echo "ignore-workspace-root-check=true" > .npmrc && \
     echo "onlyBuiltDependencies=false" >> .npmrc
 
 # Copy package files only (no source yet)
-COPY --chown=node:node package.json pnpm-lock.yaml ./
+COPY --chown=node:node package.json pnpm-lock.yaml* ./
 
 # Install dependencies (respect lockfile config)
 RUN --mount=type=cache,target=/root/.pnpm-store \
