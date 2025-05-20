@@ -21,4 +21,10 @@ module.exports = {
     ignoreBuildErrors: true,
   }
 }
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  }
+}
 export default eslintConfig;

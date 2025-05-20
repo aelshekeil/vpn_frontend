@@ -86,5 +86,18 @@ export default {
 borderColor: {
   DEFAULT: 'hsl(var(--border))'
 },
+module.exports = {
+  theme: {
+    extend: {
+      borderColor: ({ theme }) => ({
+        border: theme('colors.border'),
+      }),
+      // Make sure you have corresponding color definition
+      colors: {
+        border: 'hsl(var(--border))',
+      }
+    }
+  }
+}
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
