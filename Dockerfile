@@ -4,7 +4,7 @@ FROM node:20-alpine AS builder
 # Install build tools with cache and required dependencies
 RUN --mount=type=cache,target=/var/cache/apk \
     apk add --no-cache git python3 make g++ && \
-    npm install -g npm@10.8.2 pnpm@8.15.4
+    npm install -g npm@10.8.2 pnpm@latest
 
 WORKDIR /app
 
@@ -21,8 +21,9 @@ COPY --chown=node:node . .
 
 # Build application with production environment
 ENV NODE_ENV=production
-RUN pnpm build && \
-    pnpm add sharp && \
+RUN pnpm add sharp && \
+    pnpm build && \
+     
     rm -rf .next/cache
 
 # Production stage

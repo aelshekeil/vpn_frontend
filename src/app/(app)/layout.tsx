@@ -21,6 +21,3 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 };
 
 export default AppLayout;
-
-
-export default appWithTranslation(AppLayout);
