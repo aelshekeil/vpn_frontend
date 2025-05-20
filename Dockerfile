@@ -2,7 +2,7 @@
 FROM node:20-alpine AS builder
 
 # Install build tools with cache and required dependencies
-RUN apk add --no-cache git python3 make g++ && \
+RUN apk add --no-cache git python3 make g++ libc6-compat  # Added libc6-compat
     npm install -g pnpm@8.15.7
 
 WORKDIR /app
