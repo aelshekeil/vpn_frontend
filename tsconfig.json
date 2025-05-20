@@ -1,6 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES2017",
+        "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/components/ui/*": ["./src/components/ui/*"]
+    }
+  }
+}
     "types": [
       "@cloudflare/workers-types/2023-07-01"
     ],
