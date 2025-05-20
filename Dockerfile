@@ -14,6 +14,7 @@ COPY --chown=node:node package.json pnpm-lock.yaml* ./
 # Install dependencies with frozen lockfile and cache
 RUN --mount=type=cache,target=/root/.pnpm-store \
     pnpm install --force && \
+    pnpm add -D @types/node && \
     pnpm add -D tailwindcss postcss autoprefixer
 
 # Copy application code with proper permissions
