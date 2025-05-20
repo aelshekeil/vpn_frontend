@@ -1,18 +1,24 @@
-# Base image (consider node:20-slim if Alpine issues persist)
+# ----------- Builder Stage ----------- #
 FROM node:20-alpine AS builder
 
-# Install dependencies with libc6-compat
+# Install system dependencies including libc6-compat for Alpine compatibility
 RUN apk add --no-cache git python3 make g++ libc6-compat
-RUN npm install -g pnpm@latest
+
+# Install latest pnpm and ensure correct version
+RUN npm install -g pnpm@8.15.7
 
 WORKDIR /app
-COPY package.json pnpm-lock.yaml* ./
+
+# Copy package files first for better layer caching
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies using frozen lockfile
 RUN pnpm install --frozen-lockfile
 
+# Copy application source
 COPY . .
-RUN pnpm build && pnpm prune --prod
 
-# Build Next.js app
+# Build application
 RUN pnpm build --debug && \
     pnpm prune --prod && \
     rm -rf .next/cache
@@ -20,29 +26,22 @@ RUN pnpm build --debug && \
 # ----------- Runtime Stage ----------- #
 FROM node:20-alpine
 
-# Use dumb-init for signal handling
+# Use dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
 
 WORKDIR /app
 
-# Set environment variables
+# Environment configuration
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Copy only what is needed for runtime
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/node_modules ./node_modules
+# Copy built assets from builder
+COPY --from=builder --chown=node:node /app/.next ./.next
+COPY --from=builder --chown=node:node /app/public ./public
+COPY --from=builder --chown=node:node /app/package.json ./package.json
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 
-# Set proper permissions
-RUN chown -R node:node /app
-
-# Run as non-root user
+# Runtime configuration
 USER node
-
-# Expose port
 EXPOSE 3000
-
-# Start app with dumb-init for proper signal handling
 CMD ["dumb-init", "node_modules/.bin/next", "start"]
