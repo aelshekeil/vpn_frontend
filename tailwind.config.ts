@@ -1,22 +1,9 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
-module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      borderColor: ({ theme }) => ({
-        ...theme('colors'),
-        DEFAULT: theme('colors.border', 'currentColor'),
-        border: theme('colors.gray.200', 'currentColor'),
-      }),
-    },
-  },
-  plugins: [],
-},
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
@@ -72,8 +59,9 @@ module.exports = {
         },
       },
       borderColor: theme => ({
+        ...theme('colors'),
         DEFAULT: "hsl(var(--border))",
-        border: theme("colors.border"),
+        border: theme("colors.gray.200"),
       }),
       borderRadius: {
         lg: "var(--radius)",
@@ -96,7 +84,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 };
 
 export default config;
