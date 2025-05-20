@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.pnpm-store \
 COPY --chown=node:node . .
 
 # Build application with production environment
-RUN pnpm add sharp && \
+RUN pnpm add -w sharp && \
     pnpm build && \
     pnpm prune --prod && \
     rm -rf .next/cache
