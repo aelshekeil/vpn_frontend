@@ -1,0 +1,8 @@
+# Create a minimal placeholder pnpm-lock.yaml file to satisfy the build process
+lockfile_content = """
+lockfileVersion: 6.0
+importers:
+  .:
+    specifiers: {}
+    dependencies: {}
+"""
