@@ -1,24 +1,16 @@
-# ----------- Builder Stage ----------- #
+# Base image (consider node:20-slim if Alpine issues persist)
 FROM node:20-alpine AS builder
 
-# Install build tools with cache and required dependencies
-RUN apk add --no-cache git python3 make g++ libc6-compat  # Added libc6-compat
-    npm install -g pnpm@8.15.7
+# Install dependencies with libc6-compat
+RUN apk add --no-cache git python3 make g++ libc6-compat
+RUN npm install -g pnpm@latest
 
 WORKDIR /app
-
-# Copy package files only (no source yet)
 COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile
 
-# Install dependencies (with flexibility for lock file)
-RUN if [ -f pnpm-lock.yaml ]; then \
-      pnpm install; \
-    else \
-      pnpm install; \
-    fi
-
-# Copy full source code
 COPY . .
+RUN pnpm build && pnpm prune --prod
 
 # Build Next.js app
 RUN pnpm build --debug && \
