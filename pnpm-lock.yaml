@@ -1,8 +1,23 @@
-# Create a minimal placeholder pnpm-lock.yaml file to satisfy the build process
-lockfile_content = """
 lockfileVersion: 6.0
+
 importers:
   .:
-    specifiers: {}
-    dependencies: {}
-"""
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0
+    specifiers:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+
+packages:
+  /react/18.2.0:
+    resolution:
+      integrity: sha512-...
+    engines:
+      node: '>=12'
+
+  /react-dom/18.2.0:
+    resolution:
+      integrity: sha512-...
+    engines:
+      node: '>=12'
