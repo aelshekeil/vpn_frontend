@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -61,6 +61,10 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+      borderColor: theme => ({
+        DEFAULT: "hsl(var(--border))",
+        border: theme("colors.border"),
+      }),
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -82,22 +86,7 @@ export default {
       },
     },
   },
-  // tailwind.config.js
-borderColor: {
-  DEFAULT: 'hsl(var(--border))'
-},
-module.exports = {
-  theme: {
-    extend: {
-      borderColor: ({ theme }) => ({
-        border: theme('colors.border'),
-      }),
-      // Make sure you have corresponding color definition
-      colors: {
-        border: 'hsl(var(--border))',
-      }
-    }
-  }
-}
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+};
+
+export default config;

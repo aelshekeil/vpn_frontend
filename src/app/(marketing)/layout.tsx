@@ -1,17 +1,9 @@
-// /home/ubuntu/vpn_frontend/src/app/(marketing)/layout.tsx
-import React from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+// src/pages/_app.tsx
 import { appWithTranslation } from "next-i18next";
+import type { AppProps } from "next/app";
 
-const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
-    </>
-  );
-};
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
 
-export default appWithTranslation(MarketingLayout);
+export default appWithTranslation(MyApp);

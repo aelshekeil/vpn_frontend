@@ -1,27 +1,29 @@
 # Dockerfile for Next.js Frontend (vpn_frontend)
 FROM node:20-alpine AS builder
 
-# Install build tools with cache
+# Install build tools with cache and required dependencies
 RUN --mount=type=cache,target=/var/cache/apk \
-    apk add --no-cache git python3 make g++
+    apk add --no-cache git python3 make g++ && \
+    npm install -g npm@10.8.2 pnpm@8.15.4
 
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
+# Copy package files with proper permissions
+COPY --chown=node:node package.json pnpm-lock.yaml* ./
 
-# Copy package files
-COPY package.json pnpm-lock.yaml* ./
-
-# Install dependencies with cache
+# Install dependencies with frozen lockfile and cache
 RUN --mount=type=cache,target=/root/.pnpm-store \
-    pnpm install
+    pnpm install --frozen-lockfile && \
+    pnpm add -D tailwindcss postcss autoprefixer
 
-# Copy application code
-COPY . .
+# Copy application code with proper permissions
+COPY --chown=node:node . .
 
-# Build application
-RUN pnpm build
+# Build application with production environment
+ENV NODE_ENV=production
+RUN pnpm build && \
+    pnpm add sharp && \
+    rm -rf .next/cache
 
 # Production stage
 FROM node:20-alpine
@@ -30,10 +32,15 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/node_modules ./node_modules
+# Copy built assets with proper permissions
+COPY --chown=node:node --from=builder /app/.next ./.next
+COPY --chown=node:node --from=builder /app/public ./public
+COPY --chown=node:node --from=builder /app/package.json ./package.json
+COPY --chown=node:node --from=builder /app/node_modules ./node_modules
+
+# Add missing dependencies for production
+RUN apk add --no-cache curl && \
+    npm cache clean --force
 
 EXPOSE 3000
 CMD ["pnpm", "start"]
