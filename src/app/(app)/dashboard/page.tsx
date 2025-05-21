@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
+import { createContext } from "react" // Ensure this import exists
 
 interface UserData {
   email: string;
@@ -112,7 +113,7 @@ const DashboardPage = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to download configuration.");
       }
-
+      const MyContext = createContext(initialValue) // Must be properly initialized
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
