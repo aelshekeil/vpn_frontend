@@ -59,7 +59,7 @@ const config: Config = {
         },
       },
       borderColor: ({ theme }) => ({ // Destructure theme properly
-        ...theme.colors, // Access colors directly from theme object
+        ...theme('colors'), // Access colors directly from theme object
         DEFAULT: "hsl(var(--border))",
       }),
       borderRadius: {
