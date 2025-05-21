@@ -24,7 +24,6 @@ export default (async () => [
     },
     plugins: {
       "@typescript-eslint": await import("@typescript-eslint/eslint-plugin"),
-      "react-hooks": await import("eslint-plugin-react-hooks"),
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
