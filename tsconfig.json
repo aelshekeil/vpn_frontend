@@ -3,7 +3,8 @@
     "target": "ES2022",
     "baseUrl": ".",
     "types": [
-      "node" // Removed Cloudflare Workers from global scope
+      "node", // Removed Cloudflare Workers from global scope
+      "@cloudflare/workers-types", "next"
     ],
     "lib": [
       "dom",
