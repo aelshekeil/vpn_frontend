@@ -1,21 +1,21 @@
-import { dirname } from "path"
-import { fileURLToPath } from "url"
-import { FlatCompat } from "@eslint/eslintrc"
-import js from "@eslint/js"
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-})
+});
 
-export default [
+export default (async () => [
   js.configs.recommended,
   ...compat.extends("next/core-web-vitals"),
   {
     languageOptions: {
-      parser: "@typescript-eslint/parser",
+      parser: (await import("@typescript-eslint/parser")).default,
       parserOptions: {
         sourceType: "module",
         ecmaVersion: "latest",
@@ -23,8 +23,8 @@ export default [
       },
     },
     plugins: {
-      "@typescript-eslint": require("@typescript-eslint/eslint-plugin"),
-      "react-hooks": require("eslint-plugin-react-hooks"),
+      "@typescript-eslint": await import("@typescript-eslint/eslint-plugin"),
+      "react-hooks": await import("eslint-plugin-react-hooks"),
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
@@ -39,4 +39,4 @@ export default [
       },
     },
   },
-]
+])();
