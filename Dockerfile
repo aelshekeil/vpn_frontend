@@ -1,5 +1,5 @@
 # ----------- Builder Stage ----------- #
-FROM node:20-slim AS builder  # Changed from alpine to slim for better compatibility
+FROM node:20-slim AS builder
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y git python3 make g++
