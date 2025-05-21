@@ -1,13 +1,15 @@
-import type { NextConfig } from 'next';
-import type { Configuration } from 'webpack';
-import path from 'path';
+// next.config.js (CommonJS)
+const path = require('path');
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  output: 'standalone', // For Docker
   typescript: {
     ignoreBuildErrors: false,
   },
-  webpack: (config: Configuration) => {
+  webpack: (config) => {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -17,4 +19,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
