@@ -4,15 +4,19 @@
 import React from "react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/navigation"; // Corrected import for App Router
+import type { TFunction } from "next-i18next"; // Added type import
 
 const Navbar = () => {
   const { t, i18n } = useTranslation("common");
-  const router = useRouter();
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    // No need to manually push router for language change with middleware or proper setup
+  
+  const changeLanguage = async (lng: string) => { // Made async
+    try {
+      await i18n.changeLanguage(lng); // Added await
+      // Optional: Add logic to persist language preference
+      // localStorage.setItem("preferredLanguage", lng);
+    } catch (error) {
+      console.error("Language change failed:", error);
+    }
   };
 
   return (
@@ -27,9 +31,12 @@ const Navbar = () => {
           <Link href="/register" className="hover:text-gray-300">{t("nav_register")}</Link>
           <Link href="/login" className="hover:text-gray-300">{t("nav_login")}</Link>
           <Link href="/dashboard" className="hover:text-gray-300">{t("nav_dashboard")}</Link>
+          
           {/* Language Switcher */}
-          <button onClick={() => changeLanguage(i18n.language === "en" ? "ar" : "en")}
-                  className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">
+          <button 
+            onClick={() => changeLanguage(i18n.language === "en" ? "ar" : "en")}
+            className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+          >
             {i18n.language === "en" ? "العربية" : "English"}
           </button>
         </div>

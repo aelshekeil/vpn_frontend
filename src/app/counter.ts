@@ -17,7 +17,6 @@ import { cookies } from 'next/headers'
  */
 export async function incrementAndLog() {
   // const cf = await getCloudflareContext()
-  const headersList = headers()
   const cookieStore = await cookies()
 
   // Get current count from cookie or start at 0
