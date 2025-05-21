@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "class", // Fixed from array to string
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
@@ -47,8 +47,6 @@ const config: Config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -63,7 +61,6 @@ const config: Config = {
       borderColor: theme => ({
         ...theme('colors'),
         DEFAULT: "hsl(var(--border))",
-        border: theme("colors.gray.200"),
       }),
       borderRadius: {
         lg: "var(--radius)",
