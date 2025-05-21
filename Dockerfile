@@ -19,6 +19,7 @@ RUN pnpm install --force
 COPY public ./public
 COPY src ./src
 COPY src/components ./src/components
+COPY postcss.config.js ./
 COPY tailwind.config.ts postcss.config.js next.config.js tsconfig.json ./
 
 
