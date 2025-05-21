@@ -15,23 +15,28 @@ export default [
   ...compat.extends("next/core-web-vitals"),
   {
     languageOptions: {
+      parser: "@typescript-eslint/parser",
       parserOptions: {
         sourceType: "module",
         ecmaVersion: "latest",
-        project: "./tsconfig.json"
-      }
+        project: "./tsconfig.json",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": require("@typescript-eslint/eslint-plugin"),
+      "react-hooks": require("eslint-plugin-react-hooks"),
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
       "react-hooks/exhaustive-deps": "warn",
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
     },
     settings: {
       react: {
-        version: "detect"
-      }
-    }
-  }
+        version: "detect",
+      },
+    },
+  },
 ]
