@@ -1,6 +1,5 @@
-/// <reference types="@cloudflare/workers-types" />
+/// <reference types="@cloudflare/workers-types/2023-07-01" />
 
-// Rest of your file...
 interface CloudflareEnv {
   DB: D1Database;
   ASSETS: Fetcher;
