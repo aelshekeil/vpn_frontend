@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2022",
     "baseUrl": ".",
     "types": [
-      "@cloudflare/workers-types/2023-07-01"
+      "@cloudflare/workers-types/2023-07-01",
+      "node"
     ],
     "lib": [
       "dom",
@@ -11,7 +12,7 @@
       "esnext"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -30,7 +31,10 @@
       "@/components/*": ["./src/components/*"],
       "@/components/ui/*": ["./src/components/ui/*"],
       "@/*": ["./src/*"]
-    }
+    },
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "next-env.d.ts",
