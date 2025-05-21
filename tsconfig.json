@@ -19,7 +19,7 @@
     "paths": {
       "@/components/*": ["./src/components/*"],
       "@/components/ui/*": ["./src/components/ui/*"],
-      "@/*": ["*"]
+      "@/*": ["./src/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
