@@ -3,9 +3,8 @@ const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  experimental: {
-    serverComponentsExternalPackages: ['sharp'],
-  },
+  // Move server packages to root level (no longer experimental)
+  serverExternalPackages: ['sharp'],
   eslint: {
     ignoreDuringBuilds: true,
   },
