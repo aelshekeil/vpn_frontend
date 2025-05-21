@@ -4,7 +4,7 @@
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/page": "app/page.js",
   "/(app)/dashboard/page": "app/(app)/dashboard/page.js",
+  "/(marketing)/pricing/page": "app/(marketing)/pricing/page.js",
   "/(marketing)/register/page": "app/(marketing)/register/page.js",
-  "/(marketing)/page": "app/(marketing)/page.js",
-  "/(marketing)/pricing/page": "app/(marketing)/pricing/page.js"
+  "/(marketing)/page": "app/(marketing)/page.js"
 }
