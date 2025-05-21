@@ -1,33 +1,32 @@
 # ----------- Builder Stage ----------- #
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder  # Changed from alpine to slim for better compatibility
 
-# Install system dependencies including libc6-compat for Alpine compatibility
-RUN apk add --no-cache git python3 make g++ libc6-compat
+# Install system dependencies
+RUN apt-get update && apt-get install -y git python3 make g++
 
-# Install latest pnpm and ensure correct version
+# Install pnpm
 RUN npm install -g pnpm@8.15.7
 
 WORKDIR /app
 
-# Copy package files first for better layer caching
+# Copy package files first for better caching
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies using frozen lockfile
-RUN pnpm install --force
+# Install dependencies
+RUN pnpm install --frozen-lockfile
 
-# Copy application source
+# Copy ALL files (including CSS)
 COPY . .
 
 # Build application
-RUN pnpm build --debug && \
-    pnpm prune --prod && \
-    rm -rf .next/cache
+RUN pnpm build && \
+    pnpm prune --prod
 
 # ----------- Runtime Stage ----------- #
-FROM node:20-alpine
+FROM node:20-slim
 
 # Use dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+RUN apt-get update && apt-get install -y dumb-init
 
 WORKDIR /app
 
