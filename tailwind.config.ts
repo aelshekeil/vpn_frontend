@@ -58,8 +58,8 @@ const config: Config = {
           5: "hsl(var(--chart-5))",
         },
       },
-      borderColor: theme => ({
-        ...theme('colors'),
+      borderColor: ({ theme }) => ({ // Destructure theme properly
+        ...theme.colors, // Access colors directly from theme object
         DEFAULT: "hsl(var(--border))",
       }),
       borderRadius: {
