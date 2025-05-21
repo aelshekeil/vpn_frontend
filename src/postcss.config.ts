@@ -1,7 +1,11 @@
-# In your project root
-echo "export default {
+// postcss.config.ts
+import type { Config } from 'postcss-load-config'
+
+const config: Config = {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
-  },
-}" > postcss.config.js
+  }
+}
+
+export default config
