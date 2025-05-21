@@ -1,36 +1,37 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import js from "@eslint/js";
+import { dirname } from "path"
+import { fileURLToPath } from "url"
+import { FlatCompat } from "@eslint/eslintrc"
+import js from "@eslint/js"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-});
+})
 
-export default (async () => [
+const typescriptEslint = await import("@typescript-eslint/eslint-plugin")
+
+export default [
   js.configs.recommended,
   ...compat.extends("next/core-web-vitals"),
   {
+    plugins: {
+      "@typescript-eslint": typescriptEslint.default,
+    },
     languageOptions: {
-      parser: (await import("@typescript-eslint/parser")).default,
       parserOptions: {
         sourceType: "module",
         ecmaVersion: "latest",
         project: "./tsconfig.json",
       },
     },
-    plugins: {
-      "@typescript-eslint": await import("@typescript-eslint/eslint-plugin"),
-    },
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
       "react-hooks/exhaustive-deps": "warn",
       "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     },
     settings: {
       react: {
@@ -38,4 +39,4 @@ export default (async () => [
       },
     },
   },
-])();
+]
