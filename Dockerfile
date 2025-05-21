@@ -10,23 +10,25 @@ RUN npm install -g pnpm@latest
 WORKDIR /app
 
 # Copy package files first for better caching
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml* ./
 
-# Install dependencies
+# Install dependencies (including devDependencies)
 RUN pnpm install --force
 
-# Copy ALL files (including CSS)
-COPY . .
+# Copy source files
+COPY public ./public
+COPY src ./src
+COPY tailwind.config.ts postcss.config.ts next.config.js ./
 
 # Build application
-RUN pnpm build && \
-    pnpm prune --prod
+RUN pnpm build
 
 # ----------- Runtime Stage ----------- #
 FROM node:20-slim
 
 # Use dumb-init for proper signal handling
-RUN apt-get update && apt-get install -y dumb-init
+RUN apt-get update && apt-get install -y dumb-init && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -38,7 +40,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=builder --chown=node:node /app/.next ./.next
 COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder --chown=node:node /app/package.json ./package.json
-COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+
+# Install production dependencies only
+RUN pnpm install --prod
 
 # Runtime configuration
 USER node

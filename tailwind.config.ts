@@ -4,7 +4,6 @@ import animate from "tailwindcss-animate";
 const config: Config = {
   darkMode: "class", // Fixed from array to string
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
-  module.export = {
   theme: {
     extend: {
       colors: {
@@ -84,7 +83,6 @@ const config: Config = {
       },
     },
   },
-}
   plugins: [animate],
 };
 
