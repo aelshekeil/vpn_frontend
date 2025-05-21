@@ -1,8 +1,11 @@
+// tsconfig.worker.json
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "types": ["@cloudflare/workers-types/2023-07-01"],
-    "lib": ["webworker"]
+    "lib": ["esnext"],
+    "module": "esnext",
+    "noEmit": true
   },
   "include": ["src/workers/**/*"]
 }
