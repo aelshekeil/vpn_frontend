@@ -5,7 +5,7 @@ FROM node:20-slim AS builder
 RUN apt-get update && apt-get install -y git python3 make g++
 
 # Install pnpm
-RUN npm install -g pnpm@8.15.7
+RUN npm install -g pnpm@latest
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --force
 
 # Copy ALL files (including CSS)
 COPY . .
