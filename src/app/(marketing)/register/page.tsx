@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const { t } = useTranslation("common");
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

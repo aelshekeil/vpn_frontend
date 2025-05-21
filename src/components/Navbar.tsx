@@ -4,7 +4,6 @@
 import React from "react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import type { TFunction } from "next-i18next"; // Added type import
 
 const Navbar = () => {
   const { t, i18n } = useTranslation("common");

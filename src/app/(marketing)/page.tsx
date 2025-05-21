@@ -4,7 +4,6 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const HomePage: NextPage = () => {
   const { t } = useTranslation("common");

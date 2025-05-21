@@ -1,6 +1,5 @@
 'use server'
 // import { getCloudflareContext } from '@opennextjs/cloudflare'
-import { headers } from 'next/headers'
 import { cookies } from 'next/headers'
 
 /**
