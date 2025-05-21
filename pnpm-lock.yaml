@@ -189,12 +189,21 @@ importers:
       '@types/webpack':
         specifier: ^5.28.5
         version: 5.28.5(esbuild@0.17.19)
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^8.32.1
+        version: 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
+      '@typescript-eslint/parser':
+        specifier: ^8.32.1
+        version: 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
       eslint:
-        specifier: ^9
+        specifier: ^9.27.0
         version: 9.27.0(jiti@2.4.2)
       eslint-config-next:
         specifier: 15.1.4
         version: 15.1.4(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
+      eslint-plugin-react-hooks:
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@9.27.0(jiti@2.4.2))
       postcss:
         specifier: ^8.4.38
         version: 8.5.3
