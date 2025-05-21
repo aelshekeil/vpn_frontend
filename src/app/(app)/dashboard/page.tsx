@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
 import { createContext } from "react" // Ensure this import exists
+import { createContext, useContext } from 'react';
 
 interface UserData {
   email: string;
@@ -19,6 +20,19 @@ type ErrorWithMessage = {
   message: string;
 };
 
+const MyContext = createContext<string>(''); // Add proper initial value
+
+export function ContextProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <MyContext.Provider value="some-value">
+      {children}
+    </MyContext.Provider>
+  );
+}
+
+export function useMyContext() {
+  return useContext(MyContext);
+}
 const DashboardPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
