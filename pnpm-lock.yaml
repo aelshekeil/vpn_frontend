@@ -171,17 +171,20 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3
         version: 3.3.1
+      '@eslint/js':
+        specifier: ^9.27.0
+        version: 9.27.0
       '@opennextjs/cloudflare':
         specifier: ^0.3.8
         version: 0.3.10(wrangler@3.114.8(@cloudflare/workers-types@4.20250520.0))
       '@types/node':
-        specifier: ^20
+        specifier: ^20.17.48
         version: 20.17.48
       '@types/react':
-        specifier: ^18.2.45
+        specifier: ^18.3.21
         version: 18.3.21
       '@types/react-dom':
-        specifier: ^18.2.18
+        specifier: ^18.3.7
         version: 18.3.7(@types/react@18.3.21)
       '@types/webpack':
         specifier: ^5.28.5
