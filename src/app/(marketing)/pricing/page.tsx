@@ -8,7 +8,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const PricingPage: NextPage = () => {
   const { t } = useTranslation("common");
-const MyContext = createContext(/* ... */)
+const MyContext = createContext<MyContextType | null>(null);
 
   return (
     <div className="container mx-auto px-4 py-8">
