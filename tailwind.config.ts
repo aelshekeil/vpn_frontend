@@ -2,14 +2,17 @@ import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
 const config: Config = {
-  darkMode: "class", // Fixed from array to string
+  darkMode: "class",
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
-        background: 'hsl(0. 0%, 100%)',
-        border: 'hsl(240. 5%, 84%)',
-        foreground: "hsl(var(--foreground))",
+        // Fixed duplicate properties and HSL syntax
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -48,9 +51,6 @@ const config: Config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
         chart: {
           1: "hsl(var(--chart-1))",
           2: "hsl(var(--chart-2))",
@@ -59,8 +59,8 @@ const config: Config = {
           5: "hsl(var(--chart-5))",
         },
       },
-      borderColor: ({ theme }) => ({ // Destructure theme properly
-        ...theme('colors'), // Access colors directly from theme object
+      borderColor: ({ theme }) => ({
+        ...theme('colors'),
         DEFAULT: "hsl(var(--border))",
       }),
       borderRadius: {
@@ -84,7 +84,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [animate],
 };
 
 export default config;
