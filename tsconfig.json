@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "types": ["node"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,7 +19,7 @@
     "paths": {
       "@/components/*": ["./src/components/*"],
       "@/components/ui/*": ["./src/components/ui/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
