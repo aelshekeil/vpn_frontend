@@ -1,9 +1,15 @@
-// toaster.tsx
 "use client"
 
 import { useToast } from "@/hooks/use-toast"
-import type { ToasterToast } from "@/hooks/use-toast" // Import from source
-// ... rest of imports
+import type { ToasterToast } from "@/hooks/use-toast"
+import {
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastProvider, // Make sure this is imported
+  ToastTitle,
+  ToastViewport,
+} from "@/components/ui/toast" // Verify correct path
 
 export function Toaster() {
   const { toasts } = useToast()
