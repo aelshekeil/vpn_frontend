@@ -1,15 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "baseUrl": ".",
-    "types": [
-    "node"
-    ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "baseUrl": "src",
+    "types": ["node"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -21,11 +15,12 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{"name": "next"}],
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/components/ui/*": ["./src/components/ui/*"],
+      "@/*": ["*"]
+    },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
@@ -36,10 +31,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "postcss.config.mjs", "next.config.js", "postcss.config.js"  ],
+  ],
   "exclude": [
     "node_modules",
-    "src/workers", // Exclude worker types from general scope
-    "env.d.ts"
+    "src/workers"
   ]
 }
