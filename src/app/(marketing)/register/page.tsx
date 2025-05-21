@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const { t } = useTranslation("common");
