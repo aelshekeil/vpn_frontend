@@ -12,6 +12,12 @@ type ToasterToast = ToastProps & {
   description?: React.ReactNode
   action?: ToastActionElement
 }
+export type ToasterToast = {
+  id: string
+  title?: React.ReactNode
+  description?: React.ReactNode
+  action?: ToastActionElement
+} & ToastProps
 
 type ActionType = {
   ADD_TOAST: "ADD_TOAST"
