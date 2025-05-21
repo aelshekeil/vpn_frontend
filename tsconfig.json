@@ -41,7 +41,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "postcss.config.mjs"  ],
   "exclude": [
     "node_modules",
     "src/workers", // Exclude worker types from general scope
