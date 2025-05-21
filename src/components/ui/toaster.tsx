@@ -6,10 +6,10 @@ import {
   Toast,
   ToastClose,
   ToastDescription,
-  ToastProvider, // Make sure this is imported
+  ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/components/ui/toast" // Verify correct path
+} from "@/components/ui/toast"
 
 export function Toaster() {
   const { toasts } = useToast()
