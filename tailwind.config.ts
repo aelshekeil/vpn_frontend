@@ -7,7 +7,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))",
+        background: 'hsl(0. 0%, 100%)',
+        border: 'hsl(240. 5%, 84%)',
         foreground: "hsl(var(--foreground))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -83,7 +84,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [animate],
+  plugins: [],
 };
 
 export default config;

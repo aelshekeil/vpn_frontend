@@ -19,8 +19,6 @@ type ErrorWithMessage = {
   message: string;
 };
 
-const MyContext = createContext<string>(''); // Add proper initial value
-
 const DashboardPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();

@@ -1,5 +1,5 @@
 // src/app/(app)/layout.tsx
-import React from "react";
+import { ContextProvider } from '@/context/MyContext';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -9,14 +9,15 @@ interface AppLayoutProps {
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen">
-        {/* Add authenticated user specific layout elements here, e.g., sidebar */}
-        {children}
-      </main>
-      <Footer />
-    </>
+    <ContextProvider> {/* Wrap entire layout with context provider */}
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          {children}
+        </main>
+        <Footer />
+      </div>
+    </ContextProvider>
   );
 };
 
