@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
-import { createContext, useContext } from 'react';
+import { ContextProvider } from "@/context/MyContext";
 
 interface UserData {
   email: string;
@@ -21,17 +21,6 @@ type ErrorWithMessage = {
 
 const MyContext = createContext<string>(''); // Add proper initial value
 
-export function ContextProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <MyContext.Provider value="some-value">
-      {children}
-    </MyContext.Provider>
-  );
-}
-
-export function useMyContext() {
-  return useContext(MyContext);
-}
 const DashboardPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
