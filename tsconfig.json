@@ -45,5 +45,6 @@
   "exclude": [
     "node_modules",
     "src/workers" // Exclude worker types from general scope
+    "env.d.ts"
   ]
 }
