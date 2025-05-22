@@ -12,12 +12,6 @@ COPY . .
 
 # Convert Windows line endings to Linux
 RUN find . -type f -print0 | xargs -0 dos2unix
-
-# Verify files with absolute paths
-RUN ls -la /app/src/globals.css && \
-    ls -la /app/src/app/layout.tsx && \
-    ls -la "/app/src/app/(app)/layout.tsx"
-
 RUN pnpm build
 
 # ----------- Runtime Stage ----------- #
