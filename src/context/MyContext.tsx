@@ -1,25 +1,18 @@
-"use client";
+// src/context/MyContext.tsx
+'use client';
 
-import { createContext, useContext, ReactNode, useState } from "react";
+import { createContext, useContext, ReactNode, useState } from 'react';
 
-type ContextValue = {
-  userData: any;
-  setUserData: (data: any) => void;
+type ContextType = {
+  testValue: string;
 };
 
-const MyContext = createContext<ContextValue | null>(null);
+const MyContext = createContext<ContextType>({ testValue: 'default' });
 
 export function ContextProvider({ children }: { children: ReactNode }) {
-  const [userData, setUserData] = useState(null);
   return (
-    <MyContext.Provider value={{ userData, setUserData }}>
+    <MyContext.Provider value={{ testValue: 'test' }}>
       {children}
     </MyContext.Provider>
   );
 }
-
-export const useMyContext = () => {
-  const context = useContext(MyContext);
-  if (!context) throw new Error("useMyContext must be used within ContextProvider");
-  return context;
-};
