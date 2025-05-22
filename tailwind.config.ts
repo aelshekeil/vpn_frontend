@@ -3,20 +3,19 @@ import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: "class",
-  content: {
-    files: [
-      "./src/**/*.{js,ts,jsx,tsx,mdx}",
-      "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
-    safelist: [
-      "bg-background",
-      "bg-card",
-      "border-border",
-      "text-foreground",
-      "text-primary-foreground",
-      // Add other dynamic classes you use here
-    ],
-  },
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  // ✅ Top-level safelist (not inside 'content')
+  safelist: [
+    "bg-background",
+    "bg-card",
+    "border-border",
+    "text-foreground",
+    "text-primary-foreground",
+    // Add other dynamic classes you use here
+  ],
   theme: {
     container: {
       center: true,
