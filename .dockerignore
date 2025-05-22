@@ -13,3 +13,6 @@ Dockerfile
 .git
 .gitignore
 .vscode
+
+# Keep these
+!src/**/*.css
