@@ -4,47 +4,51 @@ FROM node:20-slim AS builder
 # Install system dependencies
 RUN apt-get update && apt-get install -y git python3 make g++
 
-# Install pnpm
+# Install pnpm globally
 RUN npm install -g pnpm@latest
 
 WORKDIR /app
 
-# Copy package files first for better caching
+# Copy package files
 COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies (including devDependencies)
-RUN pnpm install --force
+RUN pnpm install --frozen-lockfile
 
-# Copy source files (simplified copy command)
+# Copy the rest of the application files
 COPY . .
 
-# Build application
+# Build the application
 RUN pnpm build
 
 # ----------- Runtime Stage ----------- #
 FROM node:20-slim
 
-# Use dumb-init for proper signal handling
-RUN apt-get update && apt-get install -y dumb-init && \
-    rm -rf /var/lib/apt/lists/*
+# Install dumb-init for signal handling
+RUN apt-get update && apt-get install -y dumb-init && rm -rf /var/lib/apt/lists/*
 
-# Install pnpm in runtime stage
+# Install pnpm globally
 RUN npm install -g pnpm@latest
 
 WORKDIR /app
 
-# Environment configuration
+# Set environment variables
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV CI=true
 
-# Copy built assets from builder
-COPY --from=builder --chown=node:node /app/.next ./.next
-COPY --from=builder --chown=node:node /app/public ./public
-COPY --from=builder --chown=node:node /app/package.json ./package.json
-COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+# Copy only necessary files from the builder stage
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/next.config.js ./next.config.js
 
-# Runtime configuration
+# Use a non-root user for security
 USER node
+
+# Expose the Next.js port
 EXPOSE 3000
-CMD ["dumb-init", "node_modules/.bin/next", "start"]
+
+# Start the application
+CMD ["dumb-init", "pnpm", "start"]
