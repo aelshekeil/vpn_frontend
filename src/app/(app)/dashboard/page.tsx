@@ -19,10 +19,22 @@ type ErrorWithMessage = {
   message: string;
 };
 
+const isUserData = (data: any): data is UserData => {
+  return (
+    typeof data.email === "string" &&
+    typeof data.plan === "string" &&
+    typeof data.status === "string" &&
+    (typeof data.expires_at === "string" || data.expires_at === null) &&
+    typeof data.bandwidthUsed === "string" &&
+    typeof data.bandwidthLimit === "string" &&
+    typeof data.is_vip === "boolean"
+  );
+};
+
 const DashboardPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { setUserData, userData } = useMyContext(); // ✅ Ensure userData is available from context
+  const { setUserData, userData } = useMyContext();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -55,9 +67,14 @@ const DashboardPage = () => {
         throw new Error(errorData.message || "Failed to fetch user data");
       }
 
-      const data: { checkout_url?: string; error?: string } = await response.json();
-      setUserData(data);
-      setError(null);
+      const data = await response.json();
+
+      if (isUserData(data)) {
+        setUserData(data);
+        setError(null);
+      } else {
+        throw new Error("Invalid user data returned from API");
+      }
     } catch (err: unknown) {
       setError(
         isErrorWithMessage(err)
