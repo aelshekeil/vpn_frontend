@@ -14,5 +14,7 @@ Dockerfile
 .gitignore
 .vscode
 
-# Keep these
+# Add these to ensure CSS files are included:
 !src/**/*.css
+!src/**/*.ts
+!src/**/*.tsx
