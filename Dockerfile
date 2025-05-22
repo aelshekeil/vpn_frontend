@@ -15,13 +15,8 @@ COPY package.json pnpm-lock.yaml* ./
 # Install dependencies (including devDependencies)
 RUN pnpm install --force
 
-# Copy source files
-COPY public ./public
-COPY src ./src
-COPY src/components ./src/components
-COPY postcss.config.js ./
-COPY tailwind.config.ts postcss.config.js next.config.js tsconfig.json ./
-
+# Copy source files (simplified copy command)
+COPY . .
 
 # Build application
 RUN pnpm build
@@ -33,6 +28,9 @@ FROM node:20-slim
 RUN apt-get update && apt-get install -y dumb-init && \
     rm -rf /var/lib/apt/lists/*
 
+# Install pnpm in runtime stage
+RUN npm install -g pnpm@latest
+
 WORKDIR /app
 
 # Environment configuration
@@ -43,9 +41,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=builder --chown=node:node /app/.next ./.next
 COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder --chown=node:node /app/package.json ./package.json
-
-# Install production dependencies only
-RUN pnpm install --prod
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 
 # Runtime configuration
 USER node
