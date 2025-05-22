@@ -1,19 +1,20 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useState } from "react";
 
-interface MyContextType {
-  // Define your context properties here
-}
+type MyContextType = {
+  // Add your context values here
+  userData: any;
+  setUserData: (data: any) => void;
+};
 
-const MyContext = createContext<MyContextType | null>(null);
+const MyContext = createContext<MyContextType | undefined>(undefined);
 
 export function ContextProvider({ children }: { children: ReactNode }) {
-  // Add your context value here
-  const value = {};
+  const [userData, setUserData] = useState<any>(null);
 
   return (
-    <MyContext.Provider value={value}>
+    <MyContext.Provider value={{ userData, setUserData }}>
       {children}
     </MyContext.Provider>
   );
