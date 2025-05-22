@@ -3,18 +3,20 @@ import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: "class",
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  safelist: [
-    "bg-background",
-    "bg-card",
-    "border-border",
-    "text-foreground",
-    "text-primary-foreground",
-    // Add other dynamic classes you use here
-  ],
+  content: {
+    files: [
+      "./src/**/*.{js,ts,jsx,tsx,mdx}",
+      "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    safelist: [
+      "bg-background",
+      "bg-card",
+      "border-border",
+      "text-foreground",
+      "text-primary-foreground",
+      // Add other dynamic classes you use here
+    ],
+  },
   theme: {
     container: {
       center: true,
@@ -25,14 +27,11 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Base colors
-        background: "#f9fafb", // or your preferred color
+        background: "#f9fafb",
         border: "#e5e7eb",
         foreground: "#111827",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        
-        // Component-specific colors
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -61,8 +60,6 @@ const config: Config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        
-        // Extended colors
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
