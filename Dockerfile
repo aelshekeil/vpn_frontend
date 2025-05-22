@@ -14,9 +14,10 @@ COPY . .
 RUN find . -type f -print0 | xargs -0 dos2unix
 
 # Verify files with absolute paths
-RUN  -la /src/app/globals.css && \
-     -la /src/app/app/layout.tsx && \
-     -la "/src/app/(app)/layout.tsx"
+RUN ls -la /src/app/globals.css && \
+    ls -la /src/app/layout.tsx && \
+    ls -la "/src/app/(app)/layout.tsx"
+
 
 RUN pnpm build
 
