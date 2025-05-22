@@ -2,23 +2,30 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
-import { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Import useRouter
 
-const LoginPage: NextPage = () => {
+interface LoginResponse {
+  token?: string;
+  message?: string;
+}
+
+const LoginPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", { // Assuming backend runs on port 5000
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,34 +33,42 @@ const LoginPage: NextPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as LoginResponse;
 
       if (!response.ok) {
-        setError(data.message || "Login failed. Please check your credentials.");
+        setError(data.message || t("errors.login_failed"));
+        return;
+      }
+
+      if (data.token) {
+        localStorage.setItem("vpn_user_token", data.token);
+        router.push("/dashboard");
       } else {
-        // Store the token (e.g., in localStorage or a global state/context)
-        if (data.token) {
-          localStorage.setItem("vpn_user_token", data.token);
-          // Redirect to dashboard on successful login
-          router.push("/dashboard"); 
-        } else {
-          setError("Login successful, but no token received.");
-        }
+        setError("Login successful, but no token received.");
       }
     } catch (err) {
-      setError("An unexpected error occurred. Please try again later.");
       console.error("Login error:", err);
+      setError(t("errors.network_error") || "An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 flex justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">{t("nav_login")}</h1>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6 text-center text-foreground">
+          {t("nav_login")}
+        </h1>
+        {error && (
+          <p className="text-red-500 text-center mb-4">{error}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Email address
             </label>
             <input
@@ -64,12 +79,15 @@ const LoginPage: NextPage = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Password
             </label>
             <input
@@ -80,24 +98,26 @@ const LoginPage: NextPage = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
+          <div className="flex items-center justify-between text-sm">
+            <Link
+              href="/register"
+              className="text-blue-600 hover:text-blue-500"
+            >
               <p>Don&apos;t have an account?</p>
-              </Link>
-            </div>
+            </Link>
           </div>
 
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
-              {t("nav_login")}
+              {isLoading ? t("loading") : t("nav_login")}
             </button>
           </div>
         </form>
