@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -26,9 +26,9 @@ const config: Config = {
     extend: {
       colors: {
         // Base colors
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        border: "hsl(var(--border))",
+        background: "#f9fafb", // or your preferred color
+        border: "#e5e7eb",
+        foreground: "#111827",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         
