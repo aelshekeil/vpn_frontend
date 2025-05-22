@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
-
-export interface LayoutProps {
-  children: ReactNode
+interface RegisterResponse {
+  message?: string;
+  token?: string;
 }
+
+const data = await response.json() as RegisterResponse;
