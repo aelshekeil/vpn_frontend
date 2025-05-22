@@ -55,7 +55,7 @@ const DashboardPage = () => {
         throw new Error(errorData.message || "Failed to fetch user data");
       }
 
-      const data: UserData = await response.json();
+      const data: { checkout_url?: string; error?: string } = await response.json();
       setUserData(data);
       setError(null);
     } catch (err: unknown) {
@@ -154,7 +154,7 @@ const DashboardPage = () => {
         },
       });
 
-      const data = await response.json();
+      const data: { checkout_url?: string; error?: string } = await response.json();
 
       if (!response.ok) {
         setError(data.error || "Failed to create payment session.");

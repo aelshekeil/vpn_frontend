@@ -4,13 +4,17 @@ import animate from "tailwindcss-animate";
 const config: Config = {
   darkMode: "class",
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  safelist: [
+    'bg-background',
+    'border-border',
+    'text-foreground',
+  ],
   theme: {
     extend: {
       colors: {
-        // Fixed duplicate properties and HSL syntax
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        border: 'hsl(var(--border))',
+        background: '#f9fafb',
+        border: '#e5e7eb',
+        foreground: '#111827',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         sidebar: {
