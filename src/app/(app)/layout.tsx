@@ -26,8 +26,14 @@ import { ContextProvider } from '@/context/MyContext';
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ContextProvider>
-      {/* Your layout structure */}
-      {children}
+      {/* Your existing layout structure */}
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          {children}
+        </main>
+        <Footer />
+      </div>
     </ContextProvider>
   );
 }

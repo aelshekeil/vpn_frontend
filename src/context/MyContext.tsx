@@ -2,12 +2,13 @@
 
 import { createContext, useContext, ReactNode, useState } from "react";
 
-type ContextType = {
+type MyContextType = {
   userData: any;
   setUserData: (data: any) => void;
 };
 
-const MyContext = createContext<ContextType | null>(null);
+// Ensure only one ContextProvider is declared
+const MyContext = createContext<MyContextType | null>(null);
 
 export function ContextProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState(null);
@@ -19,6 +20,7 @@ export function ContextProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Single export for the context consumer
 export const useMyContext = () => {
   const context = useContext(MyContext);
   if (!context) {
