@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
-import { ContextProvider } from "@/context/MyContext";
+import { useMyContext } from "@/context/MyContext";
 
 interface UserData {
   email: string;
@@ -22,24 +22,24 @@ type ErrorWithMessage = {
 const DashboardPage = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const { setUserData, userData } = useMyContext(); // ✅ Ensure userData is available from context
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+
   const isErrorWithMessage = (error: unknown): error is ErrorWithMessage => {
-    return typeof error === 'object' && error !== null && 'message' in error;
+    return !!error && typeof error === "object" && "message" in error;
   };
 
   const fetchUserData = useCallback(async () => {
-    const token = localStorage.getItem("vpn_user_token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    
-    setIsLoading(true);
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("vpn_user_token");
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+
       const response = await fetch(`${apiUrl}/api/user/status`, {
         headers: { "x-access-token": token },
       });
@@ -50,8 +50,9 @@ const DashboardPage = () => {
           router.push("/login");
           return;
         }
-        const data = await response.json();
-        throw new Error(data.message || "Failed to fetch user data");
+
+        const errorData: { message?: string } = await response.json();
+        throw new Error(errorData.message || "Failed to fetch user data");
       }
 
       const data: UserData = await response.json();
@@ -59,15 +60,14 @@ const DashboardPage = () => {
       setError(null);
     } catch (err: unknown) {
       setError(
-        isErrorWithMessage(err) 
-          ? err.message 
-          : "An unexpected error occurred"
+        isErrorWithMessage(err)
+          ? err.message
+          : t("errors.unexpected_error")
       );
-      setUserData(null);
     } finally {
       setIsLoading(false);
     }
-  }, [router]);
+  }, [router, setUserData, t, apiUrl]);
 
   useEffect(() => {
     const checkPaymentStatus = () => {
@@ -90,10 +90,6 @@ const DashboardPage = () => {
     void initialize();
   }, [router, fetchUserData]);
 
-  interface ConfigResponseHeaders extends Headers {
-    get(name: "content-disposition"): string | null;
-  }
-
   const handleDownloadConfig = async () => {
     const token = localStorage.getItem("vpn_user_token");
     if (!token) {
@@ -103,24 +99,24 @@ const DashboardPage = () => {
     }
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const response = await fetch(`${apiUrl}/api/user/config`, {
         method: "GET",
         headers: { "x-access-token": token },
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData: { message?: string } = await response.json();
         throw new Error(errorData.message || "Failed to download configuration.");
       }
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      
-      const disposition = (response.headers as ConfigResponseHeaders).get("content-disposition");
+
+      const disposition = response.headers.get("content-disposition");
       let filename = "wg_config.conf";
-      
+
       if (disposition) {
         const filenameMatch = disposition.match(/filename=(["']?)(?<filename>.+)\1/);
         filename = filenameMatch?.groups?.filename || filename;
@@ -150,7 +146,6 @@ const DashboardPage = () => {
 
     setError(null);
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const response = await fetch(`${apiUrl}/api/payment/create-checkout-session`, {
         method: "POST",
         headers: {
@@ -203,10 +198,11 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold">{t("nav_dashboard")}</h1>
+    <div className="container mx-auto px-4 py-8 bg-background">
+      <header className="mb-8 border-b border-border pb-4">
+        <h1 className="text-3xl font-bold text-foreground">{t("nav_dashboard")}</h1>
       </header>
+
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       <section className="bg-white p-6 rounded-lg shadow-lg mb-8">
@@ -214,8 +210,20 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <p><strong>{t("email")}:</strong> {userData.email}</p>
           <p><strong>{t("current_plan")}:</strong> {userData.plan}</p>
-          <p><strong>{t("status")}:</strong> <span className={`font-semibold ${userData.status === "Active" ? "text-green-600" : "text-red-600"}`}>{userData.status}</span></p>
-          <p><strong>{t("subscription_expires")}:</strong> {userData.expires_at ? new Date(userData.expires_at).toLocaleDateString() : (userData.is_vip ? t("na_vip") : t("na"))}</p>
+          <p>
+            <strong>{t("status")}:</strong>
+            <span className={`font-semibold ${userData.status === "Active" ? "text-green-600" : "text-red-600"}`}>
+              {userData.status}
+            </span>
+          </p>
+          <p>
+            <strong>{t("subscription_expires")}:</strong>{" "}
+            {userData.expires_at
+              ? new Date(userData.expires_at).toLocaleDateString()
+              : userData.is_vip
+              ? t("na_vip")
+              : t("na")}
+          </p>
           <p><strong>{t("bandwidth_used")}:</strong> {userData.bandwidthUsed}</p>
           <p><strong>{t("bandwidth_limit")}:</strong> {userData.bandwidthLimit}</p>
         </div>
@@ -230,6 +238,7 @@ const DashboardPage = () => {
           >
             {t("download_config")}
           </button>
+
           {!userData.is_vip && (
             <button 
               onClick={handleUpgradePlan}
@@ -238,6 +247,7 @@ const DashboardPage = () => {
               {t("upgrade_vip")}
             </button>
           )}
+
           <button 
             onClick={() => {
               localStorage.removeItem("vpn_user_token");
