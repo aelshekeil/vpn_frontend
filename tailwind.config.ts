@@ -3,20 +3,23 @@ import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: "class",
-  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   safelist: [
-    'bg-background',
-    'border-border',
-    'text-foreground',
+    "bg-background",
+    "border-border",
+    "text-foreground",
   ],
   theme: {
     extend: {
       colors: {
-        background: '#f9fafb',
-        border: '#e5e7eb',
-        foreground: '#111827',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        // Base colors from CSS variables
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        border: "hsl(var(--border))",
+
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -64,7 +67,7 @@ const config: Config = {
         },
       },
       borderColor: ({ theme }) => ({
-        ...theme('colors'),
+        ...theme("colors"),
         DEFAULT: "hsl(var(--border))",
       }),
       borderRadius: {
