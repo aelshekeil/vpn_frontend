@@ -36,6 +36,7 @@ WORKDIR /app
 # Environment configuration
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV CI=true
 
 # Copy built assets from builder
 COPY --from=builder --chown=node:node /app/.next ./.next
