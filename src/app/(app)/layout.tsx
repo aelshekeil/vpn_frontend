@@ -21,4 +21,15 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   );
 };
 
+import { ContextProvider } from '@/context/MyContext';
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ContextProvider>
+      {/* Your layout structure */}
+      {children}
+    </ContextProvider>
+  );
+}
+
 export default AppLayout;

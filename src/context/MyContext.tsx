@@ -2,17 +2,16 @@
 
 import { createContext, useContext, ReactNode, useState } from "react";
 
-type MyContextType = {
-  // Add your context values here
+type ContextType = {
   userData: any;
   setUserData: (data: any) => void;
 };
 
-const MyContext = createContext<MyContextType | undefined>(undefined);
+const MyContext = createContext<ContextType | null>(null);
 
 export function ContextProvider({ children }: { children: ReactNode }) {
-  const [userData, setUserData] = useState<any>(null);
-
+  const [userData, setUserData] = useState(null);
+  
   return (
     <MyContext.Provider value={{ userData, setUserData }}>
       {children}
@@ -20,10 +19,10 @@ export function ContextProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useMyContext() {
+export const useMyContext = () => {
   const context = useContext(MyContext);
   if (!context) {
-    throw new Error("useMyContext must be used within a ContextProvider");
+    throw new Error("useMyContext must be used within ContextProvider");
   }
   return context;
-}
+};
