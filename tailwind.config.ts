@@ -1,25 +1,24 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
-const config: Config = {
+const config: Config & { safelist?: string[] } = {
   darkMode: "class",
-  content: {
-    files: [
-      "./src/**/*.{js,ts,jsx,tsx,mdx}",
-      "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
-    safelist: [
-      "bg-background",
-      "border-border",
-      "text-foreground",
-    ],
-  },
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  safelist: [
+    "bg-background",
+    "border-border",
+    "text-foreground",
+  ],
   theme: {
     extend: {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         border: "hsl(var(--border))",
+
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
 
