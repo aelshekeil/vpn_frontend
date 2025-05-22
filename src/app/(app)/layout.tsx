@@ -1,18 +1,13 @@
 // src/app/(app)/layout.tsx
 'use client';
 
+import React from 'react';
 import { ContextProvider } from '@/context/MyContext';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ContextProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
+      {children}
     </ContextProvider>
   );
 }

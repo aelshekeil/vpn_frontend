@@ -2,16 +2,23 @@
 
 import { createContext, useContext, ReactNode, useState } from "react";
 
-type ContextType = {
-  userData: any;
-  setUserData: (data: any) => void;
-};
+interface ContextType {
+  userData: {
+    email: string;
+    plan: string;
+    status: string;
+    expires_at: string | null;
+    bandwidthUsed: string;
+    bandwidthLimit: string;
+    is_vip: boolean;
+  } | null;
+  setUserData: (data: ContextType['userData']) => void;
+}
 
 const MyContext = createContext<ContextType | null>(null);
 
-// Export the provider
 export function ContextProvider({ children }: { children: ReactNode }) {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<ContextType['userData']>(null);
   
   return (
     <MyContext.Provider value={{ userData, setUserData }}>
@@ -20,7 +27,6 @@ export function ContextProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Export the custom hook
 export function useMyContext() {
   const context = useContext(MyContext);
   if (!context) {
