@@ -3,23 +3,23 @@ import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: "class",
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  safelist: [
-    "bg-background",
-    "border-border",
-    "text-foreground",
-  ],
+  content: {
+    files: [
+      "./src/**/*.{js,ts,jsx,tsx,mdx}",
+      "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    safelist: [
+      "bg-background",
+      "border-border",
+      "text-foreground",
+    ],
+  },
   theme: {
     extend: {
       colors: {
-        // Base colors from CSS variables
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         border: "hsl(var(--border))",
-
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
 
